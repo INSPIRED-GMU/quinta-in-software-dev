@@ -18,3 +18,4 @@ print(deu.intersectional_rep_difference(counts_before, counts_after))
 print(deu.intersectional_rep_rel_change(counts_before, counts_after))
 
 # make a bar chart of relative change
+deu.intersectional_rep_rel_change_bar(data1, data2, relevant_cols, relevant_cols)
