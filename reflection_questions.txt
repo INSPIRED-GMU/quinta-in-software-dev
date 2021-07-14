@@ -1,0 +1,23 @@
+* Design
+- What is your research about?
+- What type of pipeline do you expect to use?
+- What is the social and historical context of the inequality of social issues your work might affect?
+- What are you planning to do to make sure you have inclusive data?
+- Why are you doing this research?
+- How do you personally benefit from doing this research?
+- If this research is not done carefully, who might it harm?
+
+
+* Data collection
+- What characteristics does this data set include? (Checklist with race, ethnicity, gender, etc.)
+- Why does the data set include these characteristics? Why does it not include others? How might this affect your conclusions?
+- Think about the intersectional identities that are most represented. Who is being centered in the data? Why? How might this affect your analysis?
+- Think about the intersectional identities that are least represented or not represented at all. Who is being marginalized in the data? Why? How might this affect your analysis?
+
+
+* Explore
+- Are you using proxies for characteristics you don't have direct data on? How could those proxies be discriminatory against people with some of the intersectional identities in the data?
+
+* Model
+- Ask for accuracy of model on each intersectional identity
+- Who is included? Who is excluded? Why? How?
