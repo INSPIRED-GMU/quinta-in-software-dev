@@ -8,11 +8,11 @@
 - If this research is not done carefully, who might it harm?
 - What is the worst thing that could happen to someone because of this
   model?
-- Can your
 
 
 * Data collection
 - What characteristics does this data set include? (Checklist with race, ethnicity, gender, etc.)
+- How are your features relevant to the question you're trying to answer
 - Why does the data set include these characteristics? Why does it not include others? How might this affect your conclusions?
 - Think about the intersectional identities that are most represented. Who is being centered in the data? Why? How might this affect your analysis?
 - Think about the intersectional identities that are least represented or not represented at all. Who is being marginalized in the data? Why? How might this affect your analysis?
