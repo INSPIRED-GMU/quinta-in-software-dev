@@ -6,6 +6,9 @@
 - Why are you doing this research?
 - How do you personally benefit from doing this research?
 - If this research is not done carefully, who might it harm?
+- What is the worst thing that could happen to someone because of this
+  model?
+- Can your
 
 
 * Data collection
@@ -17,7 +20,18 @@
 
 * Explore
 - Are you using proxies for characteristics you don't have direct data on? How could those proxies be discriminatory against people with some of the intersectional identities in the data?
-
+- What are known relationships from previous literature about the
+  relationship between feature A and [a possible value of race,
+  gender, or something else]
+  
+  
 * Model
 - Ask for accuracy of model on each intersectional identity
 - Who is included? Who is excluded? Why? How?
+
+
+* Interpret
+- Is this model applicable on the scale you expect it to be used? (See
+  WMD 30)
+- What is a safe scale for this model? (See WMD 30)
+- How popular do you think this model will become? Why? (WMD 31)
