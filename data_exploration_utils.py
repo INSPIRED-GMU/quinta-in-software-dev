@@ -130,7 +130,7 @@ def intersectional_rep_difference(counts_before, counts_after):
     """
     return {key: (counts_after[key] - counts_before[key]
                   if key in counts_after else -counts_before[key])
-            for key in counts_before.keys()}
+            for key in counts_before}
 
 
 def intersectional_rep_rel_change(counts_before, counts_after):
