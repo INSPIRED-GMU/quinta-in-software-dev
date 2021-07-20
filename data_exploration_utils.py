@@ -111,7 +111,8 @@ def intersectional_rep_pie(table, col_nums):
 
 
 def intersectional_rep_difference(counts_before, counts_after):
-    """Calculate change in counts of intersectional identities before and after cleaning.
+    """Calculate change in counts of intersectional identities before and after
+    cleaning.
 
     Parameters
     ----------
@@ -128,14 +129,15 @@ def intersectional_rep_difference(counts_before, counts_after):
 
     """
     return {key: (counts_after[key] - counts_before[key]
-                  if key in counts_after.keys() else -counts_before[key])
+                  if key in counts_after else -counts_before[key])
             for key in counts_before.keys()}
 
 
 def intersectional_rep_rel_change(counts_before, counts_after):
     # TODO: Create a plan for how to do this if counts_after and counts_before
     # have different keys, i.e., a feature was removed.
-    """Calculate relative change in counts of intersectional identities before and after cleaning.
+    """Calculate relative change in counts of intersectional identities before 
+    and after cleaning.
 
     Parameters
     ----------
@@ -152,11 +154,12 @@ def intersectional_rep_rel_change(counts_before, counts_after):
 
     """
     return {key: ((counts_after[key] - counts_before[key])/counts_before[key]
-                  if key in counts_after.keys() else -1.0)
-            for key in counts_before.keys()}
+                  if key in counts_after else -1.0)
+            for key in counts_before}
 
 
-def intersectional_rep_rel_change_bar(before_table, after_table, before_cols, after_cols):
+def intersectional_rep_rel_change_bar(before_table, after_table, before_cols,
+                                      after_cols):
     """
     
 
