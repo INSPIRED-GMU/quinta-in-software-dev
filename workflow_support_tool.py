@@ -5,6 +5,7 @@ class App(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.grid(column=0, row=0)
+        # TODO: make the app open on the start page
         SessionHome(self)
         
 
@@ -13,7 +14,7 @@ class StartPage:
 
 class SessionHome:
     def __init__(self, parent):
-        session = Frame(parent)
+        session = ttk.Frame(parent)
         session.grid(column=0, row=0)
         design = ttk.Labelframe(session, text='Design')
         data_collection = ttk.Labelframe(session, text='Data Collection')
@@ -32,8 +33,15 @@ class SessionHome:
         design_reflection = ttk.Button(design, text='Reflection')
         design_reflection.grid(column=1, row=0)
 
-class DesignReflectionPage:
-    pass
+        design_reflection_screen = ttk.Frame(design, )
+        
+
+# class DesignReflectionPage(ttk.Frame):
+#     def __init__(self, parent):
+#         super().__init__(parent)
+
+    
+#     pass
 
 root = Tk()
 root.title = 'QUINTA Workflow Support Tool'
