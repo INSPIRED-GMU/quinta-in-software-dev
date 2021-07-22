@@ -1,4 +1,4 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
 
 class App(ttk.Frame):
@@ -30,10 +30,16 @@ class SessionHome:
         model.grid(column=1, row=1)
         interpret.grid(column=2, row=1)
 
-        design_reflection = ttk.Button(design, text='Reflection')
+        design_reflection_screen = ttk.Frame(design)
+        design_reflection_screen.grid(column=0, row=0)
+        ttk.Label(design_reflection_screen, text='Hello').grid(column=0, row=0)
+        
+
+        design_reflection = ttk.Button(design, text='Reflection', command=design_reflection_screen.tkraise)
         design_reflection.grid(column=1, row=0)
 
-        design_reflection_screen = ttk.Frame(design, )
+        
+
         
 
 # class DesignReflectionPage(ttk.Frame):
