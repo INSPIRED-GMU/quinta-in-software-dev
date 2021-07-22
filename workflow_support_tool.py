@@ -1,9 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 
-class App(ttk.Frame):
-    def __init__(self, parent):
-        super().__init__(parent)
+class App(Tk):
+    def __init__(self):
+        self.title = 'QUINTA Workflow Support Tool'
         self.grid(column=0, row=0)
         SessionHome(self)
         
@@ -13,8 +13,11 @@ class StartPage:
 
 class SessionHome:
     def __init__(self, parent):
+        # Create a frame to hold all the widgets for the session
         session = Frame(parent)
         session.grid(column=0, row=0)
+
+        # Create labelframes to hold buttons for each step of DS
         design = ttk.Labelframe(session, text='Design')
         data_collection = ttk.Labelframe(session, text='Data Collection')
         cleaning = ttk.Labelframe(session, text='Cleaning')
@@ -29,13 +32,21 @@ class SessionHome:
         model.grid(column=1, row=1)
         interpret.grid(column=2, row=1)
 
+
         design_reflection = ttk.Button(design, text='Reflection')
         design_reflection.grid(column=1, row=0)
+        data_collect_rep_analysis = ttk.Button(design,
+                                               text='Represenatation analysis')
+        data_collect_rep_analysis.grid(column=1, row=0)
+        
 
 class DesignReflectionPage:
     pass
 
-root = Tk()
-root.title = 'QUINTA Workflow Support Tool'
-App(root)
-root.mainloop()
+class DataCollectionRepresentationAnalysisPage:
+    """Visualize intersectional representation in a dataset."""
+    pass
+
+
+App().mainloop()
+
