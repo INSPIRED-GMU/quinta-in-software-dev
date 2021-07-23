@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from reflection_questions.design import *
+import reflection_questions.design as drq
 
 class Session(ttk.Frame):
     """The main session screen."""
@@ -25,14 +25,19 @@ class DesignReflectionScreen(ttk.Frame):
     """A screen of reflection questions for the Design phase."""
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent)
-        ttk.Label(self, text='Hello').grid(column=0, row=0)
+        research_purpose = TextQuestion(drq.RESEARCH_PURPOSE, parent)
+        research_purpose.show(0, 1)
 
 class TextQuestion:
     """A question and a textbox to answer it."""
     def __init__(self, question, parent) -> None:
-        self.question = question
         self.label = ttk.Label(parent, text=question)
         self.textbox = tk.Text(parent)
+
+    def show(self, c, r):
+        """Show the question and answer on screen"""
+        self.label.grid(column=c, row=r)
+        self.textbox.grid(column=c, row=r+1)
         
 root = tk.Tk()
 session = Session(root).grid(column=0,  row=0)
