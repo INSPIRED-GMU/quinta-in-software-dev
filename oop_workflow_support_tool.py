@@ -8,11 +8,11 @@ class Session(ttk.Frame):
     def __init__(self, parent):
         self.parent = parent
         ttk.Frame.__init__(self, parent)
+        main_menu = ttk.Frame(self)
+        main_menu.grid(column=0, row=0)
         # design = ttk.Labelframe(self, text='Design')
-        design = PhaseMenu(self, 'Design', 
-        [('Reflection', DesignReflectionScreen),
-         
-        ])
+        design = PhaseMenu(main_menu, 'Design', 
+        [('Reflection', DesignReflectionScreen)])
         data_collection = ttk.Labelframe(self, text='Data Collection')
         cleaning = ttk.Labelframe(self, text='Cleaning')
         explore = ttk.Labelframe(self, text='Explore')
@@ -50,10 +50,10 @@ class TextQuestion:
         
 class PhaseMenu(ttk.Labelframe):
     """A menu for the phase."""
-    def __init__(self, parent, title, buttons):
-        ttk.Labelframe.__init__(self, parent, text=title)
+    def __init__(self, old_frame, title, buttons):
+        ttk.Labelframe.__init__(self, old_frame, text=title)
         self.buttons = [ttk.Button(self, text=button_text,
-             command=lambda parent, frame: replace_frame(parent, frame)) for button_text, frame in buttons]
+             command=lambda: replace_frame(old_frame, frame)) for button_text, frame in buttons]
         for i, button in enumerate(self.buttons):
             button.grid(column=0, row=i)
 
