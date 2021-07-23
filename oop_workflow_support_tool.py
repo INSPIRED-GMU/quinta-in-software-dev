@@ -4,6 +4,7 @@ from tkinter import ttk
 from reflection_questions.design import *
 
 class Session(ttk.Frame):
+    """The main session screen."""
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent)
         design = ttk.Labelframe(self, text='Design')
@@ -21,9 +22,17 @@ class Session(ttk.Frame):
         interpret.grid(column=2, row=1)
         
 class DesignReflectionScreen(ttk.Frame):
+    """A screen of reflection questions for the Design phase."""
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent)
         ttk.Label(self, text='Hello').grid(column=0, row=0)
+
+class TextQuestion:
+    """A question and a textbox to answer it."""
+    def __init__(self, question, parent) -> None:
+        self.question = question
+        self.label = ttk.Label(parent, text=question)
+        self.textbox = tk.Text(parent)
         
 root = tk.Tk()
 session = Session(root).grid(column=0,  row=0)
