@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import mainloop, ttk
+from tkinter.constants import VERTICAL
 
 import reflection_questions.design as drq
 
@@ -16,14 +17,25 @@ class TextQuestion:
         
 
 root = tk.Tk()
-design_reflection = ttk.Frame(root)
+
+mainframe = ttk.Frame(root)
+mainframe.grid()
+canvas = tk.Canvas(mainframe)
+canvas.grid()
+design_reflection = ttk.Frame(canvas)
+design_reflection.grid()
+
+scrollbar = ttk.Scrollbar(canvas, orient=VERTICAL, command=canvas.yview)
+scrollbar.grid(column=1, row=0)
+canvas.configure(yscrollcommand=scrollbar.set)
+
+
 design_reflection.grid(column=0, row=0)
 ttk.Label(design_reflection, text='Design: Reflection').grid()
-TextQuestion(drq.RESEARCH_PURPOSE, design_reflection).show(0, 2)
-TextQuestion(drq.SOCIAL_CONTEXT, design_reflection).show(0, 4)
-TextQuestion(drq.PERSONAL_BENEFIT, design_reflection).show(0, 6)
-TextQuestion(drq.WHO_HARM, design_reflection).show(0, 8)
-TextQuestion(drq.WORST_CASE, design_reflection).show(0, 10)
+
+questions = [drq.RESEARCH_PURPOSE, drq.SOCIAL_CONTEXT, drq.PERSONAL_BENEFIT, drq.WHO_HARM, drq.WORST_CASE]
+for i, question in [pair for pair in zip([2*x for x in range(1, len(questions)+1)], questions)]:
+    TextQuestion(question, design_reflection).show(0, i)
 
 
 
