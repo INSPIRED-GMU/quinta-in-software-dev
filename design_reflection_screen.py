@@ -42,5 +42,6 @@ for i, question in [pair for pair in zip([2*x for x in range(1, len(questions)+1
     TextQuestion(question, design_reflection).show(0, i)
 
 # TODO: store answers in markdown file with questions as headings
+# Make a save button. Store answers in markdown file when saved
 
 root.mainloop()
