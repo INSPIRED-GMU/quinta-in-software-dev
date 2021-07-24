@@ -41,6 +41,6 @@ questions = [drq.RESEARCH_PURPOSE, drq.SOCIAL_CONTEXT, drq.PERSONAL_BENEFIT, drq
 for i, question in [pair for pair in zip([2*x for x in range(1, len(questions)+1)], questions)]:
     TextQuestion(question, design_reflection).show(0, i)
 
-
+# TODO: store answers in markdown file with questions as headings
 
 root.mainloop()
