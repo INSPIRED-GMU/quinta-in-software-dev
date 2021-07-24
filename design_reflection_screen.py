@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter.constants import VERTICAL
+from tkinter.constants import END, VERTICAL
+from datetime import date
 
 import reflection_questions.design as drq
 
@@ -31,7 +32,7 @@ scrollbar.grid(column=2, row=0)
 canvas.create_window(5, 5, window=design_reflection)
 canvas.configure(yscrollcommand=scrollbar.set)
 
-design_reflection.bind('<Configure>', lambda canvas=canvas: canvas.configure(scrollregion=canvas.bbox('all')))
+# design_reflection.bind('<Configure>', lambda canvas=canvas: canvas.configure(scrollregion=canvas.bbox('all')))
 
 
 design_reflection.grid(column=0, row=0)
@@ -46,5 +47,19 @@ for i, tq in enumerate(text_questions.values(), 1):
 
 # TODO: store answers in markdown file with questions as headings
 # Make a save button. Store answers in markdown file when saved
+
+switch = False
+
+
+def save():
+    # TODO: Make file names more specific, exception handling
+    with open('session/design_reflection_responses' + str(date.today()) +'.txt', 'w') as save_file:
+        for question in text_questions:
+            save_file.write('# ' + question + '\n' + text_questions[question].textbox.get(1.0, END) + '\n\n')
+
+
+ttk.Button(design_reflection, text='Save', command=save).grid(column=3, row=0)
+
+
 
 root.mainloop()
