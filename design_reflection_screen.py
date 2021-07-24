@@ -25,9 +25,13 @@ canvas.grid()
 design_reflection = ttk.Frame(canvas)
 design_reflection.grid()
 
+# TODO: fix scrollbar
 scrollbar = ttk.Scrollbar(canvas, orient=VERTICAL, command=canvas.yview)
-scrollbar.grid(column=1, row=0)
+scrollbar.grid(column=2, row=0)
+canvas.create_window(5, 5, window=design_reflection)
 canvas.configure(yscrollcommand=scrollbar.set)
+
+design_reflection.bind('<Configure>', lambda canvas=canvas: canvas.configure(scrollregion=canvas.bbox('all')))
 
 
 design_reflection.grid(column=0, row=0)
