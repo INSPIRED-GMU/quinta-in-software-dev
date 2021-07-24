@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import mainloop, ttk
+from tkinter import ttk
 from tkinter.constants import VERTICAL
 
 import reflection_questions.design as drq
@@ -38,8 +38,11 @@ design_reflection.grid(column=0, row=0)
 ttk.Label(design_reflection, text='Design: Reflection').grid()
 
 questions = [drq.RESEARCH_PURPOSE, drq.SOCIAL_CONTEXT, drq.PERSONAL_BENEFIT, drq.WHO_HARM, drq.WORST_CASE]
-for i, question in [pair for pair in zip([2*x for x in range(1, len(questions)+1)], questions)]:
-    TextQuestion(question, design_reflection).show(0, i)
+
+text_questions = {question: tq for question, tq in zip(questions, 
+map(lambda q: TextQuestion(q, design_reflection), questions))}
+for i, tq in enumerate(text_questions.values(), 1):
+    tq.show(0, 2*i)
 
 # TODO: store answers in markdown file with questions as headings
 # Make a save button. Store answers in markdown file when saved
