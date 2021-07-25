@@ -1,16 +1,18 @@
 """
 Utilities for analyzing the represntation of intersectional identities in data.
 
-Last modified: July 8, 2021
+Last modified: July 24, 2021
 """
 
 from collections import Counter
 import itertools
+import matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.style as mplstyle
 import numpy as np
 
-mplstyle.use('fast')
+matplotlib.use('TkCairo')
+matplotlib.style.use('fast')
+
 
 
 def non_inter_idents(table, col_nums):
