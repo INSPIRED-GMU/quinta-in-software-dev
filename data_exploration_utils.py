@@ -8,9 +8,10 @@ from collections import Counter
 import itertools
 import matplotlib
 import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 
-matplotlib.use('TkCairo')
+matplotlib.use('TkAgg')
 matplotlib.style.use('fast')
 
 
@@ -161,7 +162,7 @@ def intersectional_rep_rel_change(counts_before, counts_after):
 
 
 def intersectional_rep_rel_change_bar(before_table, after_table, before_cols,
-                                      after_cols):
+                                      after_cols, parent):
     """
     
 
@@ -201,4 +202,4 @@ def intersectional_rep_rel_change_bar(before_table, after_table, before_cols,
     ax.set_yticklabels(labels)
     ax.invert_yaxis()
     ax.set_xlabel('Relative change in representation')
-    plt.show()
+    return FigureCanvasTkAgg(fig, parent)

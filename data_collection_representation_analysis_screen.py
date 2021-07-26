@@ -23,20 +23,20 @@ file_format_radio_buttons = {file_format: ttk.Radiobutton(mainframe,
 for i, ff in enumerate(file_format_radio_buttons, 3):
     file_format_radio_buttons[ff].grid(column=0, row=i)
 
-def plot_rep(file_path, col_list, format_string_var):
+class PlotRep:
     """Plot intersectional representation."""
-    format = format_string_var.get()
-    if format == 'CSV':
-        read_func = pd.read_csv
-    elif format == 'TSV':
-        read_func = pd.read_table
-    elif format == 'JSON':
-        read_func = pd.read_json
-    elif format == 'SQL':
-        read_func = pd.read_sql
-    
-    deu.intersectional_rep_pie(read_func(file_path), col_nums=col_list)
-    
+    def __init__(file_path, col_list, format_string_var, parent):
+        format = format_string_var.get()
+        if format == 'CSV':
+            read_func = pd.read_csv
+        elif format == 'TSV':
+            read_func = pd.read_table
+        elif format == 'JSON':
+            read_func = pd.read_json
+        elif format == 'SQL':
+            read_func = pd.read_sql
+        deu.intersectional_rep_pie(read_func(file_path), col_list, parent).grid(column=4, row=2)
 
+    
 
 root.mainloop()
