@@ -88,7 +88,7 @@ def missed_intersects(table, col_nums):
         set(true_intersects_counts(table, col_nums).keys()))
 
 
-def intersectional_rep_pie(table, col_nums):
+def intersectional_rep_pie(table, col_nums, parent):
     """Create a pie chart of percentage of intersectional groups in a dataset.
 
     Parameters
@@ -111,6 +111,7 @@ def intersectional_rep_pie(table, col_nums):
            labels=plot_labels, autopct='%1.1f%%')
     ax.set_title("Representation of intersectional identities")
     plt.savefig("representation_intersectional_identities.png")
+    return FigureCanvasTkAgg(fig, parent)
 
 
 def intersectional_rep_difference(counts_before, counts_after):
