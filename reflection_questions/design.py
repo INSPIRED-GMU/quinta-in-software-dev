@@ -4,5 +4,5 @@ SOCIAL_CONTEXT = 'What is the social and historical context of the inequality' \
     'and the inequalities of the techniques you plan in your literature review.'
 PERSONAL_BENEFIT = 'How do you personally benefit from this project?'
 WHO_HARM = 'If this research is not done carefully, who might it harm or erase?'
-WORST_CASE = 'What is the worst thing that could happen to someone' \
+WORST_CASE = 'What is the worst thing that could happen to someone ' \
     'because of this model?'

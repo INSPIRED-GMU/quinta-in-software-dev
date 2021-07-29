@@ -2,6 +2,7 @@
 The main code for the QUINTA workflow support tool app.
 """
 
+import os
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
@@ -16,12 +17,11 @@ class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
+        self.session_dir = ''
         # Attribution for frame stacking skeleton:
         # https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter/7557028#7557028
         container = ttk.Frame(self)
-        container.pack(side="top", fill="both", expand=True)
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        container.grid()
 
         self.frames = {}
         for frame_class in (ChooseSessionPage, SessionHomePage, DesignReflectionPage,
@@ -32,7 +32,7 @@ class App(tk.Tk):
             frame.grid(row=0, column=0, sticky='nsew')
 
         # TODO: make this ChooseSessionPage once built
-        self.show_frame('SessionHomePage')
+        self.show_frame('ChooseSessionPage')
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -46,9 +46,14 @@ class ChooseSessionPage(ttk.Frame):
     def __init__(self, parent, controller) -> None:
         ttk.Frame.__init__(self, parent)
         self.controller = controller
-        ttk.Label(self, text='Create a new session:').grid(column=0, row=0)
-        # TODO: Add buttons to open sessions or create sessions.
-        # These buttons should automaticallytake you to a session screen
+        ttk.Button(self, text='Create or open a session folder', command=lambda: [self.open_session_folder(), controller.show_frame('SessionHomePage')]).grid(
+            column=0, row=0, sticky='nsew')
+
+        # TODO: Make button populate session screen with information
+
+    def open_session_folder(self):
+        """Creates a session folder."""
+        self.controller.session_dir = tk.filedialog.askdirectory()
 
 
 class SessionHomePage(ttk.Frame):
@@ -101,10 +106,10 @@ class ReflectionPage(ttk.Frame):
     def __init__(self, parent, controller) -> None:
         ttk.Frame.__init__(self, parent)
         ttk.Button(self, text='Return to session home', command=lambda: controller.show_frame(
-            'SessionHomePage')).grid(column=1, row=0)
+            'SessionHomePage')).grid(column=0, row=0)
         self.controller = controller
         self.canvas = tk.Canvas(self)
-        self.canvas.grid(column=0, row=0, sticky='nsew')
+        self.canvas.grid(column=0, row=1, sticky='nsew')
         scrollbar = ttk.Scrollbar(
             self, orient=tk.VERTICAL, command=self.canvas.yview)
         scrollbar.grid(column=1, row=0, sticky='ns')
@@ -186,8 +191,10 @@ class RepresentationAnalysis(ttk.Frame):
     def __init__(self, parent, controller) -> None:
         ttk.Frame.__init__(self, parent)
         self.controller = controller
-        self.radiobutton_frame = ttk.Frame(self)
-        self.radiobutton_frame.grid(column=0, row=1)
+        self.button_frame = ttk.Frame(self)
+        self.button_frame.grid(column=0, row=1)
+        self.radiobutton_frame = ttk.Frame(self.button_frame)
+        self.radiobutton_frame.grid(column=0, row=0)
         self.data_format = tk.StringVar()
         self.data_object = None
         self.file_format_radio_buttons = {file_format: ttk.Radiobutton(self.radiobutton_frame,
@@ -199,14 +206,20 @@ class RepresentationAnalysis(ttk.Frame):
         for i, file_format in enumerate(self.file_format_radio_buttons):
             self.file_format_radio_buttons[file_format].grid(
                 column=0, row=i, sticky='ns')
-                
+
         ttk.Button(self, text='Return to session home', command=lambda: controller.show_frame(
             'SessionHomePage')).grid(column=1, row=0)
 
-    def plot_rep_pie(self, dataframe, col_list):
+    def plot_rep_pie(self):
         """Plot intersectional representation."""
+        selected_cols = list(self.data_object.listbox.curselection())
         deu.intersectional_rep_pie(
-            dataframe, col_list, self).get_tk_widget().grid(column=2, row=2)
+            self.data_object.data, selected_cols, self).get_tk_widget().grid(column=2, row=1)
+        missed_intersects = deu.missed_intersects(
+            self.data_object.data, selected_cols)
+        if missed_intersects != set():
+            ttk.Label(self, text='The following identities are not represented: ' +
+                      str(missed_intersects)).grid(column=2, row=2)
 
     def set_data_object(self) -> None:
         """Return"""
@@ -221,14 +234,20 @@ class CollectionRepresentationAnalysis(RepresentationAnalysis):
         RepresentationAnalysis.__init__(self, parent, controller)
         ttk.Label(self, text='Representation analysis').grid(column=0, row=0)
 
-        plot_button = ttk.Button(self, text='Plot representation', state=['disabled'], command=lambda: self.plot_rep_pie(
-            self.data_object.data, list(self.data_object.listbox.curselection())).grid(column=2, row=0))
-        load_button = ttk.Button(self, text='Load dataset',
-                                 command=lambda: [self.set_data_object(), self.data_object.col_listbox(
-                                     self), self.data_object.listbox.grid(column=1, row=1, sticky='nsew'), plot_button.state(['!disabled'])]
+        plot_button = ttk.Button(self, text='Plot representation', state=[
+                                 'disabled'], command=self.plot_rep_pie)
+        load_button = ttk.Button(self.button_frame, text='Load dataset',
+                                 command=lambda: [self.create_listbox(
+                                 ), plot_button.state(['!disabled'])]
                                  )
-        load_button.grid(column=0, row=2)
+        load_button.grid(column=0, row=1)
         plot_button.grid(column=1, row=2)
+
+    def create_listbox(self):
+        """Create and grid a listbox from self.data_object."""
+        self.set_data_object()
+        self.data_object.col_listbox(self)
+        self.data_object.listbox.grid(column=1, row=1, sticky='nsew')
 
 
 if __name__ == "__main__":
