@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import reflection_questions.design as drq
+import reflection_questions.collection as crq
 
 
 class ReflectionPage(ttk.Frame):
@@ -19,14 +20,12 @@ class ReflectionPage(ttk.Frame):
         # self.canvas.configure(yscrollcommand=scrollbar.set)
         self.question_frame = ttk.Frame(self.canvas)
         self.canvas.create_window(0, 0, window=self.question_frame, anchor='nw')
-        self.question_frame.bind('<Configure>', lambda event: self.canvas.configure(
-            scrollregion=self.canvas.bbox('all')))
+        
 
         self.question_frame.bind('<Configure', self.canvas.configure(
             scrollregion=self.canvas.bbox('all')))
     
     
-
 
 class DesignReflectionPage(ReflectionPage):
     """A reflection page for design."""
@@ -36,6 +35,19 @@ class DesignReflectionPage(ReflectionPage):
         questions = [drq.RESEARCH_PURPOSE, drq.SOCIAL_CONTEXT,
                      drq.PERSONAL_BENEFIT, drq.WHO_HARM, drq.WORST_CASE]
         ttk.Label(self.question_frame, text='Design: Reflection').grid(
+            column=0, row=0)
+        text_questions = {question: tq for question, tq in zip(
+            questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
+        for i, text_question in enumerate(text_questions.values(), 1):
+            text_question.show(0, 2*i)
+
+class CollectionReflectionPage(ReflectionPage):
+    """A reflection for data collection."""
+
+    def __init__(self, parent, controller) -> None:
+        ReflectionPage.__init__(self, parent, controller)
+        questions = [crq.INTERSECTIONAL_DATA, crq.MOST_REPPED, crq.LEAST_REPPED]
+        ttk.Label(self.question_frame, text='Collection: Reflection').grid(
             column=0, row=0)
         text_questions = {question: tq for question, tq in zip(
             questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
