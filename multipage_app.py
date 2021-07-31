@@ -16,7 +16,7 @@ class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-        self.session_dir = ''
+        self.session_dir = 'sample_session' #TODO: make it ''
         # Attribution for frame stacking skeleton:
         # https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter/7557028#7557028
         container = ttk.Frame(self)
