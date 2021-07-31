@@ -16,7 +16,7 @@ class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-        self.session_dir = 'sample_session' #TODO: make it ''
+        self.session_dir = 'sample_session'  # TODO: make it ''
         # Attribution for frame stacking skeleton:
         # https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter/7557028#7557028
         container = ttk.Frame(self)
@@ -24,7 +24,7 @@ class App(tk.Tk):
 
         self.frames = {}
         for frame_class in (ChooseSessionPage, SessionHomePage, rp.DesignReflectionPage,
-                            ra.CollectionRepresentationAnalysis, rp.CollectionReflectionPage):
+                            ra.CollectionRepresentationAnalysis, rp.CollectionReflectionPage, rp.CleaningReflectionPage):
             page_name = frame_class.__name__
             frame = frame_class(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -63,13 +63,14 @@ class SessionHomePage(ttk.Frame):
         self.controller = controller
         self.step_labelframes = {}
         self.ds_processes = ['Design', 'Collection', 'Cleaning',
-                             'Exploring', 'Model', 'Interpret']
+                             'Explore', 'Model', 'Interpret']
         # Create labelframes to hold the menu for each data science process
         for step in self.ds_processes:
             self.step_labelframes[step] = ttk.LabelFrame(self, text=step)
         # Grid each labelframe
+        row_length = int(len(self.step_labelframes)/2)
         for i, step in enumerate(self.step_labelframes):
-            self.step_labelframes[step].grid(column=i,
+            self.step_labelframes[step].grid(column=(i if i < row_length else i - row_length),
                                              row=(1 if i < len(
                                                  self.step_labelframes)/2 else 2),
                                              sticky='ns')
@@ -79,25 +80,27 @@ class SessionHomePage(ttk.Frame):
         ttk.Button(self.step_labelframes['Design'],
                    text='Reflection', command=lambda: controller.show_frame(
             'DesignReflectionPage')).grid(column=button_col, row=0,
-                                          sticky='nsew')
+                                          sticky='ew')
 
         # Data collection menu
         ttk.Button(self.step_labelframes['Collection'],
                    text='Representation analysis',
                    command=lambda: controller.show_frame(
                        'CollectionRepresentationAnalysis')
-                   ).grid(column=button_col, row=0)
+                   ).grid(column=button_col, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Collection'],
                    text='Reflection', command=lambda: controller.show_frame('CollectionReflectionPage')
-                   ).grid(column=button_col, row=1)
+                   ).grid(column=button_col, row=1, sticky='ew')
 
         # Cleaning
         ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Pre-reflection').grid(column=button_col, row=0)
+                   text='Reflection', command=lambda: controller.show_frame('CleaningReflectionPage')).grid(column=button_col, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Comparative representation analysis').grid(column=button_col, row=1)
-        ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Post-reflection').grid(column=button_col, row=2)
+                   text='Comparative representation analysis').grid(column=button_col, row=1,sticky='ew')
+
+        # Explore
+        ttk.Button(self.step_labelframes['Explore'], text='Reflection', command=lambda: controller.show_frame(
+            'ExploreReflectionPage')).grid(column=button_col, row=0)
 
 
 if __name__ == "__main__":

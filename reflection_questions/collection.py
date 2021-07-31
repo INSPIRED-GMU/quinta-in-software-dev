@@ -13,7 +13,7 @@ def listbox_attributes(parent):
     return tk.Listbox(parent, listvariable=possible_attributes)
 
 INTERSECTIONAL_DATA = 'Are your data intersectional? Why or why not? Remember' \
-    'that the experiences associated with one identity a person has' \
+    ' that the experiences associated with one identity a person has' \
     'are not necessarily independent of or separate from another identity of' \
     'that person. How well can your dataset reflect this?'
 

@@ -4,7 +4,7 @@ from tkinter import ttk
 import datetime
 import reflection_questions.design as drq
 import reflection_questions.collection as crq
-
+import reflection_questions.cleaning as clrq
 
 class ReflectionPage(ttk.Frame):
     """A general page of reflection questions."""
@@ -37,6 +37,13 @@ class ReflectionPage(ttk.Frame):
             with open(self.controller.session_dir + "/" + type(self).__name__ + str(datetime.date.today()) +'.txt', 'w') as save_file:
                 for question in self.text_questions:
                     save_file.write('# ' + question + '\n' + self.text_questions[question].textbox.get(1.0, tk.END) + '\n\n')
+        
+    def grid_text_questions(self, questions):
+        """A function to put the text questions on screen"""
+        self.text_questions = {question: tq for question, tq in zip(
+        questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
+        for i, text_question in enumerate(self.text_questions.values(), 1):
+            text_question.show(0, 2*i)
 
         
 
@@ -69,11 +76,22 @@ class CollectionReflectionPage(ReflectionPage):
         questions = [crq.INTERSECTIONAL_DATA, crq.MOST_REPPED, crq.LEAST_REPPED]
         ttk.Label(self.question_frame, text='Collection: Reflection').grid(
             column=0, row=0)
-        text_questions = {question: tq for question, tq in zip(
-            questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
-        for i, text_question in enumerate(text_questions.values(), 1):
-            text_question.show(0, 2*i)
-    
+        self.grid_text_questions(questions)
+
+class CleaningReflectionPage(ReflectionPage):
+    """A reflection for data cleaning."""
+
+    def __init__(self, parent, controller):
+        ReflectionPage.__init__(self, parent, controller)
+        questions = [clrq.RELATIVE_CHANGE, clrq.UNDERREPRESENT]
+        self.grid_text_questions(questions)
+
+class ExploreReflectionPage(ReflectionPage):
+    """A reflection for exploration."""
+    def __init__(self, parent, controller) -> None:
+        super().__init__(parent, controller)
+        questions = []
+        self.grid_text_questions(questions)
 
 class TextQuestion:
     """A question and a textbox to answer it."""
