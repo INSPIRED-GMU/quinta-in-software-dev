@@ -24,7 +24,8 @@ class App(tk.Tk):
 
         self.frames = {}
         for frame_class in (ChooseSessionPage, SessionHomePage, rp.DesignReflectionPage,
-                            ra.CollectionRepresentationAnalysis, rp.CollectionReflectionPage, rp.CleaningReflectionPage):
+                            ra.CollectionRepresentationAnalysis, rp.CollectionReflectionPage, rp.CleaningReflectionPage,
+                            rp.ExploreReflectionPage):
             page_name = frame_class.__name__
             frame = frame_class(parent=container, controller=self)
             self.frames[page_name] = frame
