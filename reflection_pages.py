@@ -37,14 +37,17 @@ class ReflectionPage(ttk.Frame):
         self.text_questions = {}
 
     def save(self):
+        """Save the responses in all the text_questions to file in the session folder."""
         # TODO: Make file names more specific, exception handling
-        with open(self.controller.session_dir + "/" + type(self).__name__ + str(datetime.date.today()) + '.txt', 'w') as save_file:
+        with open(self.controller.session_dir + "/" + type(self).__name__ +
+                  str(datetime.date.today()) + '.txt', 'w') as save_file:
             for question in self.text_questions:
                 save_file.write(
-                    '# ' + question + '\n' + self.text_questions[question].textbox.get(1.0, tk.END) + '\n\n')
+                    '# ' + question + '\n' +
+                    self.text_questions[question].textbox.get(1.0, tk.END) + '\n\n')
 
     def grid_text_questions(self, questions):
-        """A function to put the text questions on screen"""
+        """Put the text questions on screen."""
         self.text_questions = {question: tq for question, tq in zip(
             questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
         for i, text_question in enumerate(self.text_questions.values(), 1):
@@ -64,8 +67,6 @@ class DesignReflectionPage(ReflectionPage):
             questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
         for i, text_question in enumerate(self.text_questions.values(), 1):
             text_question.show(0, 2*i)
-
-    
 
 
 class CollectionReflectionPage(ReflectionPage):

@@ -23,7 +23,7 @@ class App(tk.Tk):
 
         self.frames = {}
         for frame_class in (ChooseSessionPage, SessionHomePage, rp.DesignReflectionPage,
-                            ra.CollectionRepresentationAnalysis, 
+                            ra.CollectionRepresentationAnalysis,
                             rp.CollectionReflectionPage, rp.CleaningReflectionPage,
                             rp.ExploreReflectionPage):
             page_name = frame_class.__name__
@@ -46,8 +46,10 @@ class ChooseSessionPage(ttk.Frame):
     def __init__(self, parent, controller) -> None:
         ttk.Frame.__init__(self, parent)
         self.controller = controller
-        ttk.Button(self, text='Create or open a session folder', command=lambda: [self.open_session_folder(), controller.show_frame('SessionHomePage')]).grid(
-            column=0, row=0, sticky='nsew')
+        ttk.Button(self, text='Create or open a session folder',
+                   command=lambda: [self.open_session_folder(
+                   ), controller.show_frame('SessionHomePage')]
+                   ).grid(column=0, row=0, sticky='nsew')
 
         # TODO: Make button populate session screen with information
 
@@ -90,18 +92,26 @@ class SessionHomePage(ttk.Frame):
                        'CollectionRepresentationAnalysis')
                    ).grid(column=button_col, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Collection'],
-                   text='Reflection', command=lambda: controller.show_frame('CollectionReflectionPage')
+                   text='Reflection',
+                   command=lambda: controller.show_frame(
+                       'CollectionReflectionPage')
                    ).grid(column=button_col, row=1, sticky='ew')
 
         # Cleaning
         ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Reflection', command=lambda: controller.show_frame('CleaningReflectionPage')).grid(column=button_col, row=0, sticky='ew')
+                   text='Reflection',
+                   command=lambda: controller.show_frame(
+                       'CleaningReflectionPage')
+                   ).grid(column=button_col, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Comparative representation analysis').grid(column=button_col, row=1, sticky='ew')
+                   text='Comparative representation analysis').grid(column=button_col, row=1,
+                                                                    sticky='ew')
 
         # Explore
-        ttk.Button(self.step_labelframes['Explore'], text='Reflection', command=lambda: controller.show_frame(
-            'ExploreReflectionPage')).grid(column=button_col, row=0)
+        ttk.Button(self.step_labelframes['Explore'], text='Reflection',
+                   command=lambda: controller.show_frame(
+                       'ExploreReflectionPage')
+                   ).grid(column=button_col, row=0)
 
 
 if __name__ == "__main__":
