@@ -5,6 +5,7 @@ import datetime
 import reflection_questions.design as drq
 import reflection_questions.collection as crq
 import reflection_questions.cleaning as clrq
+import reflection_questions.explore as erq
 
 
 class ReflectionPage(ttk.Frame):
@@ -95,7 +96,7 @@ class ExploreReflectionPage(ReflectionPage):
 
     def __init__(self, parent, controller) -> None:
         super().__init__(parent, controller)
-        questions = []
+        questions = [erq.USING_PROXIES, erq.HARM]
         self.grid_text_questions(questions)
 
 

@@ -5,6 +5,8 @@ The main code for the QUINTA workflow support tool app.
 import tkinter as tk
 from tkinter import ttk
 
+from matplotlib.pyplot import text
+
 import reflection_pages as rp
 import representation_analysis as ra
 
@@ -76,13 +78,13 @@ class SessionHomePage(ttk.Frame):
             self.step_labelframes[step].grid(column=(i if i < row_length else i - row_length),
                                              row=(1 if i < len(
                                                  self.step_labelframes)/2 else 2),
-                                             sticky='ns')
-        button_col = 1
+                                             sticky='nsew')
+        BUTTON_COL = 1
 
         # Design menu. TODO: Make button take user to reflection page
         ttk.Button(self.step_labelframes['Design'],
                    text='Reflection', command=lambda: controller.show_frame(
-            'DesignReflectionPage')).grid(column=button_col, row=0,
+            'DesignReflectionPage')).grid(column=BUTTON_COL, row=0,
                                           sticky='ew')
 
         # Data collection menu
@@ -90,28 +92,42 @@ class SessionHomePage(ttk.Frame):
                    text='Representation analysis',
                    command=lambda: controller.show_frame(
                        'CollectionRepresentationAnalysis')
-                   ).grid(column=button_col, row=0, sticky='ew')
+                   ).grid(column=BUTTON_COL, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Collection'],
                    text='Reflection',
                    command=lambda: controller.show_frame(
                        'CollectionReflectionPage')
-                   ).grid(column=button_col, row=1, sticky='ew')
+                   ).grid(column=BUTTON_COL, row=1, sticky='ew')
 
         # Cleaning
         ttk.Button(self.step_labelframes['Cleaning'],
                    text='Reflection',
                    command=lambda: controller.show_frame(
                        'CleaningReflectionPage')
-                   ).grid(column=button_col, row=0, sticky='ew')
+                   ).grid(column=BUTTON_COL, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Comparative representation analysis').grid(column=button_col, row=1,
+                   text='Comparative representation analysis').grid(column=BUTTON_COL, row=1,
                                                                     sticky='ew')
 
         # Explore
         ttk.Button(self.step_labelframes['Explore'], text='Reflection',
                    command=lambda: controller.show_frame(
                        'ExploreReflectionPage')
-                   ).grid(column=button_col, row=0)
+                   ).grid(column=BUTTON_COL, row=0, sticky='ew')
+
+        # Model
+        ttk.Button(self.step_labelframes['Model'], text='Intersectional accuracy',
+                   command=lambda: controller.show_frame(
+                       'ModelReflectionPage')).grid(column=BUTTON_COL, row=0, sticky='ew')
+
+        ttk.Button(self.step_labelframes['Model'], text='Reflection',
+                   command=lambda: controller.show_frame(
+                       'ModelReflectionPage', text='Reflection')).grid(column=BUTTON_COL, row=1, sticky='ew')
+
+        # Interpret
+        ttk.Button(self.step_labelframes['Interpret'], text='Reflection',
+                   command=lambda: controller.show_frame(
+                       'InterpretReflectionPage')).grid(column=BUTTON_COL, row=0, sticky='ew')
 
 
 if __name__ == "__main__":
