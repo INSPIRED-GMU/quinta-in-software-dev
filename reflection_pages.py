@@ -6,49 +6,50 @@ import reflection_questions.design as drq
 import reflection_questions.collection as crq
 import reflection_questions.cleaning as clrq
 
+
 class ReflectionPage(ttk.Frame):
     """A general page of reflection questions."""
-    
-    
 
     def __init__(self, parent, controller) -> None:
         ttk.Frame.__init__(self, parent)
-        ttk.Button(self, text='Return to session home', command=lambda: controller.show_frame(
+
+        buttons = ttk.Frame(self)
+        ttk.Button(buttons, text='Return to session home', command=lambda: controller.show_frame(
             'SessionHomePage')).grid(column=0, row=0)
-        ttk.Button(self, text='Save responses', command=self.save).grid(column=1, row=2)
+        ttk.Button(buttons, text='Save responses',
+                   command=self.save).grid(column=1, row=0)
+        buttons.pack()
+
         self.controller = controller
         self.canvas = tk.Canvas(self)
-        self.canvas.grid(column=0, row=1, sticky='nsew')
         scrollbar = ttk.Scrollbar(
-            self, orient=tk.VERTICAL, command=self.canvas.yview)
-        scrollbar.grid(column=1, row=0, sticky='ns')
-        self.canvas.configure(yscrollcommand=scrollbar.set)
+            self, orient='vertical', command=self.canvas.yview)
         self.question_frame = ttk.Frame(self.canvas)
-        self.canvas.create_window(0, 0, window=self.question_frame, anchor='nw')
-        
-
         self.question_frame.bind('<Configure>', self.canvas.configure(
             scrollregion=self.canvas.bbox('all')))
+
+        self.canvas.create_window(
+            0, 0, window=self.question_frame, anchor='nw')
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        self.canvas.pack(fill='both', side='left', expand=True)
+        scrollbar.pack(side='right', fill='y', anchor='e')
 
         self.text_questions = {}
 
     def save(self):
-            # TODO: Make file names more specific, exception handling
-            with open(self.controller.session_dir + "/" + type(self).__name__ + str(datetime.date.today()) +'.txt', 'w') as save_file:
-                for question in self.text_questions:
-                    save_file.write('# ' + question + '\n' + self.text_questions[question].textbox.get(1.0, tk.END) + '\n\n')
-        
+        # TODO: Make file names more specific, exception handling
+        with open(self.controller.session_dir + "/" + type(self).__name__ + str(datetime.date.today()) + '.txt', 'w') as save_file:
+            for question in self.text_questions:
+                save_file.write(
+                    '# ' + question + '\n' + self.text_questions[question].textbox.get(1.0, tk.END) + '\n\n')
+
     def grid_text_questions(self, questions):
         """A function to put the text questions on screen"""
         self.text_questions = {question: tq for question, tq in zip(
-        questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
+            questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
         for i, text_question in enumerate(self.text_questions.values(), 1):
             text_question.show(0, 2*i)
 
-        
-
-    
-    
 
 class DesignReflectionPage(ReflectionPage):
     """A reflection page for design."""
@@ -58,14 +59,13 @@ class DesignReflectionPage(ReflectionPage):
         questions = [drq.RESEARCH_PURPOSE, drq.SOCIAL_CONTEXT,
                      drq.PERSONAL_BENEFIT, drq.WHO_HARM, drq.WORST_CASE]
         ttk.Label(self.question_frame, text='Design: Reflection').grid(
-            column=0, row=0)
+            column=0, row=0, sticky='w')
         self.text_questions = {question: tq for question, tq in zip(
             questions, map(lambda q: TextQuestion(self.question_frame, q), questions))}
         for i, text_question in enumerate(self.text_questions.values(), 1):
             text_question.show(0, 2*i)
+
     
-    def save(self):
-        super().save()
 
 
 class CollectionReflectionPage(ReflectionPage):
@@ -73,10 +73,12 @@ class CollectionReflectionPage(ReflectionPage):
 
     def __init__(self, parent, controller) -> None:
         ReflectionPage.__init__(self, parent, controller)
-        questions = [crq.INTERSECTIONAL_DATA, crq.MOST_REPPED, crq.LEAST_REPPED]
+        questions = [crq.INTERSECTIONAL_DATA,
+                     crq.MOST_REPPED, crq.LEAST_REPPED]
         ttk.Label(self.question_frame, text='Collection: Reflection').grid(
             column=0, row=0)
         self.grid_text_questions(questions)
+
 
 class CleaningReflectionPage(ReflectionPage):
     """A reflection for data cleaning."""
@@ -86,12 +88,15 @@ class CleaningReflectionPage(ReflectionPage):
         questions = [clrq.RELATIVE_CHANGE, clrq.UNDERREPRESENT]
         self.grid_text_questions(questions)
 
+
 class ExploreReflectionPage(ReflectionPage):
     """A reflection for exploration."""
+
     def __init__(self, parent, controller) -> None:
         super().__init__(parent, controller)
         questions = []
         self.grid_text_questions(questions)
+
 
 class TextQuestion:
     """A question and a textbox to answer it."""

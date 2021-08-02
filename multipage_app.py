@@ -2,7 +2,6 @@
 The main code for the QUINTA workflow support tool app.
 """
 
-
 import tkinter as tk
 from tkinter import ttk
 
@@ -24,7 +23,8 @@ class App(tk.Tk):
 
         self.frames = {}
         for frame_class in (ChooseSessionPage, SessionHomePage, rp.DesignReflectionPage,
-                            ra.CollectionRepresentationAnalysis, rp.CollectionReflectionPage, rp.CleaningReflectionPage,
+                            ra.CollectionRepresentationAnalysis, 
+                            rp.CollectionReflectionPage, rp.CleaningReflectionPage,
                             rp.ExploreReflectionPage):
             page_name = frame_class.__name__
             frame = frame_class(parent=container, controller=self)
@@ -97,7 +97,7 @@ class SessionHomePage(ttk.Frame):
         ttk.Button(self.step_labelframes['Cleaning'],
                    text='Reflection', command=lambda: controller.show_frame('CleaningReflectionPage')).grid(column=button_col, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Comparative representation analysis').grid(column=button_col, row=1,sticky='ew')
+                   text='Comparative representation analysis').grid(column=button_col, row=1, sticky='ew')
 
         # Explore
         ttk.Button(self.step_labelframes['Explore'], text='Reflection', command=lambda: controller.show_frame(
