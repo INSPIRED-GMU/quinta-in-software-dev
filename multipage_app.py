@@ -17,6 +17,7 @@ class App(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
+        self.title('Quintessence')
         self.session_dir = 'sample_session'  # TODO: make it ''
         # Attribution for frame stacking skeleton:
         # https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter/7557028#7557028
@@ -122,7 +123,7 @@ class SessionHomePage(ttk.Frame):
 
         ttk.Button(self.step_labelframes['Model'], text='Reflection',
                    command=lambda: controller.show_frame(
-                       'ModelReflectionPage', text='Reflection')).grid(column=BUTTON_COL, row=1, sticky='ew')
+                       'ModelReflectionPage')).grid(column=BUTTON_COL, row=1, sticky='ew')
 
         # Interpret
         ttk.Button(self.step_labelframes['Interpret'], text='Reflection',
