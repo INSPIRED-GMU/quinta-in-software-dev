@@ -6,6 +6,8 @@ import reflection_questions.design as drq
 import reflection_questions.collection as crq
 import reflection_questions.cleaning as clrq
 import reflection_questions.explore as erq
+import reflection_questions.model as mrq
+import reflection_questions.interpret as irq
 
 
 class ReflectionPage(ttk.Frame):
@@ -59,7 +61,7 @@ class DesignReflectionPage(ReflectionPage):
     """A reflection page for design."""
 
     def __init__(self, parent, controller) -> None:
-        ReflectionPage.__init__(self, parent, controller)
+        super().__init__(parent, controller)
         questions = [drq.RESEARCH_PURPOSE, drq.SOCIAL_CONTEXT,
                      drq.PERSONAL_BENEFIT, drq.WHO_HARM, drq.WORST_CASE]
         ttk.Label(self.question_frame, text='Design: Reflection').grid(
@@ -74,7 +76,7 @@ class CollectionReflectionPage(ReflectionPage):
     """A reflection for data collection."""
 
     def __init__(self, parent, controller) -> None:
-        ReflectionPage.__init__(self, parent, controller)
+        super().__init__(parent, controller)
         questions = [crq.INTERSECTIONAL_DATA,
                      crq.MOST_REPPED, crq.LEAST_REPPED]
         ttk.Label(self.question_frame, text='Collection: Reflection').grid(
@@ -86,7 +88,7 @@ class CleaningReflectionPage(ReflectionPage):
     """A reflection for data cleaning."""
 
     def __init__(self, parent, controller):
-        ReflectionPage.__init__(self, parent, controller)
+        super().__init__(parent, controller)
         questions = [clrq.RELATIVE_CHANGE, clrq.UNDERREPRESENT]
         self.grid_text_questions(questions)
 
@@ -99,6 +101,19 @@ class ExploreReflectionPage(ReflectionPage):
         questions = [erq.USING_PROXIES, erq.HARM]
         self.grid_text_questions(questions)
 
+class ModelReflectionPage(ReflectionPage):
+    """A reflection for the model phase."""
+    def __init__(self, parent, controller) -> None:
+        super().__init__(parent, controller)
+        questions = [ ]
+        self.grid_text_questions(questions)
+
+class InterpretReflectionPage(ReflectionPage):
+    """A reflection page for the interpret phase."""
+    def __init__(self, parent, controller) -> None:
+        super().__init__(parent, controller)
+        questions = [irq.ENHANCED_STRUCT_INEQ, irq.HOW_INTERPRET]
+        self.grid_text_questions(questions)
 
 class TextQuestion:
     """A question and a textbox to answer it."""

@@ -4,9 +4,6 @@ The main code for the QUINTA workflow support tool app.
 
 import tkinter as tk
 from tkinter import ttk
-
-from matplotlib.pyplot import text
-
 import reflection_pages as rp
 import representation_analysis as ra
 
@@ -18,7 +15,7 @@ class App(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         self.title('Quintessence')
-        self.session_dir = 'sample_session'  # TODO: make it ''
+        self.session_dir = ''
         # Attribution for frame stacking skeleton:
         # https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter/7557028#7557028
         container = ttk.Frame(self)
@@ -28,14 +25,14 @@ class App(tk.Tk):
         for frame_class in (ChooseSessionPage, SessionHomePage, rp.DesignReflectionPage,
                             ra.CollectionRepresentationAnalysis,
                             rp.CollectionReflectionPage, rp.CleaningReflectionPage,
-                            rp.ExploreReflectionPage):
+                            rp.ExploreReflectionPage, rp.ModelReflectionPage,
+                            rp.InterpretReflectionPage):
             page_name = frame_class.__name__
             frame = frame_class(parent=container, controller=self)
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky='nsew')
 
-        # TODO: make this ChooseSessionPage once built
-        self.show_frame('SessionHomePage')
+        self.show_frame('ChooseSessionPage')
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -49,16 +46,23 @@ class ChooseSessionPage(ttk.Frame):
     def __init__(self, parent, controller) -> None:
         ttk.Frame.__init__(self, parent)
         self.controller = controller
-        ttk.Button(self, text='Create or open a session folder',
-                   command=lambda: [self.open_session_folder(
-                   ), controller.show_frame('SessionHomePage')]
-                   ).grid(column=0, row=0, sticky='nsew')
+        ttk.Label(
+            self, text=('Welcome to Quintessence, a workflow support tool '
+                        'for Quantitative Intersectional Data (QUINTA).')).grid(column=0, row=0, sticky='nsew')
+        ttk.Button(self, text='Choose a session folder',
+                   command=self.open_session_folder
+                   ).grid(column=0, row=2)
 
-        # TODO: Make button populate session screen with information
+
 
     def open_session_folder(self):
-        """Creates a session folder."""
+        """Create a session folder."""
         self.controller.session_dir = tk.filedialog.askdirectory()
+        if self.controller.session_dir != '':
+            self.controller.show_frame('SessionHomePage')
+        else:
+            ttk.Label(self, text='You must select a folder to continue.',
+             foreground='red').grid(column=0, row=1)
 
 
 class SessionHomePage(ttk.Frame):
@@ -80,8 +84,10 @@ class SessionHomePage(ttk.Frame):
                                              row=(1 if i < len(
                                                  self.step_labelframes)/2 else 2),
                                              sticky='nsew')
-        BUTTON_COL = 1
 
+        # The column the button goes in is a constant in case we add more information
+        # to other columns that makes us have to move all of the buttons over.
+        BUTTON_COL = 1
         # Design menu. TODO: Make button take user to reflection page
         ttk.Button(self.step_labelframes['Design'],
                    text='Reflection', command=lambda: controller.show_frame(
@@ -131,6 +137,6 @@ class SessionHomePage(ttk.Frame):
                        'InterpretReflectionPage')).grid(column=BUTTON_COL, row=0, sticky='ew')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = App()
     app.mainloop()
