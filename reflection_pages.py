@@ -14,7 +14,7 @@ class ReflectionPage(ttk.Frame):
     """A general page of reflection questions."""
 
     def __init__(self, parent, controller) -> None:
-        ttk.Frame.__init__(self, parent)
+        super().__init__(parent)
 
         buttons = ttk.Frame(self)
         ttk.Button(buttons, text='Return to session home', command=lambda: controller.show_frame(

@@ -104,3 +104,6 @@ class CollectionRepresentationAnalysis(RepresentationAnalysis):
         self.set_data_object()
         self.data_object.col_listbox(self)
         self.data_object.listbox.grid(column=1, row=1, sticky='nsew')
+
+class ComparativeRepresentationAnalysis:
+    """The representation analysis screen."""

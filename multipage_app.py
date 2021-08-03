@@ -12,7 +12,7 @@ class App(tk.Tk):
     """The main app, which contains all of the frames for each screen."""
 
     def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.title('Quintessence')
         self.session_dir = ''
@@ -44,7 +44,7 @@ class ChooseSessionPage(ttk.Frame):
     """The page that lets the user create a new session or create an existing session."""
 
     def __init__(self, parent, controller) -> None:
-        ttk.Frame.__init__(self, parent)
+        super().__init__(parent)
         self.controller = controller
         ttk.Label(
             self, text=('Welcome to Quintessence, a workflow support tool '
@@ -69,7 +69,7 @@ class SessionHomePage(ttk.Frame):
     """The homepage of a session that lets users navigate between steps."""
 
     def __init__(self, parent, controller):
-        ttk.Frame.__init__(self, parent)
+        super().__init__(parent)
         self.controller = controller
         self.step_labelframes = {}
         self.ds_processes = ['Design', 'Collection', 'Cleaning',
