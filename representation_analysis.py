@@ -1,3 +1,12 @@
+"""This module contains data analysis screens and their parts.
+
+Classes:
+Data--A dataset with its file format, columns of interest, dataframe, and Tk.Listbox.
+RepresentationAnalysis--A ttk.Frame associated with a Data object and plotting functions.
+CollectionRepresentationAnalysis--A ttk.Frame for drawing a pie chart of a dataset.
+ComparativeRepresentationAnalysis--A ttk.Frame for drawing pie charts of two datasets and
+    visualizing changes in representation.
+"""
 import tkinter as tk
 from tkinter import ttk
 import pandas as pd
@@ -46,6 +55,12 @@ class RepresentationAnalysis(ttk.Frame):
     """A general frame for reprsentation analysis."""
 
     def __init__(self, parent, controller) -> None:
+        """Create a frame associated with a dataset and its visualization.
+
+        Instance variables:
+        controller
+        button_frame -- a
+        """
         super().__init__(parent)
         self.controller = controller
         self.button_frame = ttk.Frame(self)
@@ -64,8 +79,11 @@ class RepresentationAnalysis(ttk.Frame):
             self.file_format_radio_buttons[file_format].grid(
                 column=0, row=i, sticky='ns')
 
-        ttk.Button(self, text='Return to session home', command=lambda: controller.show_frame(
-            'SessionHomePage')).grid(column=1, row=0)
+    def create_listbox(self, column=1, row=1):
+        """Create and grid a listbox from self.data_object."""
+        self.set_data_object()
+        self.data_object.col_listbox(self)
+        self.data_object.listbox.grid(column=column, row=row, sticky='nsew')
 
     def plot_rep_pie(self):
         """Plot intersectional representation."""
@@ -85,10 +103,12 @@ class RepresentationAnalysis(ttk.Frame):
 
 
 class CollectionRepresentationAnalysis(RepresentationAnalysis):
-    """The collection representation analysis screen."""
+    """The collection representation analysis screen. Also used in Comparative."""
 
     def __init__(self, parent, controller) -> None:
         super().__init__(parent, controller)
+        ttk.Button(self, text='Return to session home', command=lambda: controller.show_frame(
+            'SessionHomePage')).grid(column=1, row=0)
         ttk.Label(self, text='Representation analysis').grid(column=0, row=0)
 
         plot_button = ttk.Button(self, text='Plot representation', state=[
@@ -100,26 +120,32 @@ class CollectionRepresentationAnalysis(RepresentationAnalysis):
         load_button.grid(column=0, row=1)
         plot_button.grid(column=1, row=2)
 
-    def create_listbox(self):
-        """Create and grid a listbox from self.data_object."""
-        self.set_data_object()
-        self.data_object.col_listbox(self)
-        self.data_object.listbox.grid(column=1, row=1, sticky='nsew')
 
-
-class ComparativeRepresentationAnalysis(ttk.Frame):
+class ComparativeRepresentationAnalysis(RepresentationAnalysis):
     """The representation analysis screen."""
 
     def __init__(self, parent, controller) -> None:
         """Create a new comparative representation analysis screen.
 
-        The frame will allow the user to select two files and 
+        The frame will allow the user to select two files and
         create a pie chart of intersectional representation in each,
         as well as create a bar chart that shows changes in relative
         representation between the files.
         """
-        super().__init__(parent)
-        self.controller = controller
+        super().__init__(parent, controller)
+        self.before_frame = CollectionRepresentationAnalysis(self, controller)
+        self.before_frame.grid(column=0, row=1)
+        self.after_frame = CollectionRepresentationAnalysis(self, controller)
+        self.after_frame.grid(column=0, row=2)
+        self.difference_frame = ttk.Frame(self)
+        self.difference_frame.grid(column=1, row=0)
+        ttk.Button(self.difference_frame, text='Plot relative change',
+                   command=lambda: self.rel_change_bar(self.difference_frame)).pack()
 
-        
-
+    def rel_change_bar(self, parent):
+        """Draw a barchart representing the relative change in representation."""
+        deu.intersectional_rep_rel_change_bar(
+            self.before_frame.data_object.data, self.after_frame.data_object.data,
+            list(self.before_frame.data_object.listbox.curselection(
+            )), list(self.after_frame.data_object.listbox.curselection()), parent
+        ).get_tk_widget().pack()

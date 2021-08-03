@@ -25,6 +25,7 @@ class App(tk.Tk):
         for frame_class in (ChooseSessionPage, SessionHomePage, rp.DesignReflectionPage,
                             ra.CollectionRepresentationAnalysis,
                             rp.CollectionReflectionPage, rp.CleaningReflectionPage,
+                            ra.ComparativeRepresentationAnalysis,
                             rp.ExploreReflectionPage, rp.ModelReflectionPage,
                             rp.InterpretReflectionPage):
             page_name = frame_class.__name__
@@ -48,12 +49,11 @@ class ChooseSessionPage(ttk.Frame):
         self.controller = controller
         ttk.Label(
             self, text=('Welcome to Quintessence, a workflow support tool '
-                        'for Quantitative Intersectional Data (QUINTA).')).grid(column=0, row=0, sticky='nsew')
+                        'for Quantitative Intersectional Data (QUINTA).')
+        ).grid(column=0, row=0, sticky='nsew')
         ttk.Button(self, text='Choose a session folder',
                    command=self.open_session_folder
                    ).grid(column=0, row=2)
-
-
 
     def open_session_folder(self):
         """Create a session folder."""
@@ -62,7 +62,7 @@ class ChooseSessionPage(ttk.Frame):
             self.controller.show_frame('SessionHomePage')
         else:
             ttk.Label(self, text='You must select a folder to continue.',
-             foreground='red').grid(column=0, row=1)
+                      foreground='red').grid(column=0, row=1)
 
 
 class SessionHomePage(ttk.Frame):
@@ -113,8 +113,10 @@ class SessionHomePage(ttk.Frame):
                        'CleaningReflectionPage')
                    ).grid(column=BUTTON_COL, row=0, sticky='ew')
         ttk.Button(self.step_labelframes['Cleaning'],
-                   text='Comparative representation analysis').grid(column=BUTTON_COL, row=1,
-                                                                    sticky='ew')
+                   text='Comparative representation analysis',
+                   command=lambda: controller.show_frame(
+                       'ComparativeRepresentationAnalysis')
+                   ).grid(column=BUTTON_COL, row=1, sticky='ew')
 
         # Explore
         ttk.Button(self.step_labelframes['Explore'], text='Reflection',
