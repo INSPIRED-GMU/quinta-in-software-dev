@@ -4,6 +4,7 @@ import pandas as pd
 
 import data_exploration_utils as deu
 
+
 class Data:
     """Represents a dataset, """
 
@@ -45,7 +46,7 @@ class RepresentationAnalysis(ttk.Frame):
     """A general frame for reprsentation analysis."""
 
     def __init__(self, parent, controller) -> None:
-        ttk.Frame.__init__(self, parent)
+        super().__init__(parent)
         self.controller = controller
         self.button_frame = ttk.Frame(self)
         self.button_frame.grid(column=0, row=1)
@@ -75,7 +76,7 @@ class RepresentationAnalysis(ttk.Frame):
             self.data_object.data, selected_cols)
         if missed_intersects != set():
             ttk.Label(self, text='The following identities are not represented: ' +
-                      str(missed_intersects)).grid(column=2, row=2)
+                      str(missed_intersects), foreground='red').grid(column=2, row=2)
 
     def set_data_object(self) -> None:
         """Return"""
@@ -87,7 +88,7 @@ class CollectionRepresentationAnalysis(RepresentationAnalysis):
     """The collection representation analysis screen."""
 
     def __init__(self, parent, controller) -> None:
-        RepresentationAnalysis.__init__(self, parent, controller)
+        super().__init__(parent, controller)
         ttk.Label(self, text='Representation analysis').grid(column=0, row=0)
 
         plot_button = ttk.Button(self, text='Plot representation', state=[
@@ -105,5 +106,20 @@ class CollectionRepresentationAnalysis(RepresentationAnalysis):
         self.data_object.col_listbox(self)
         self.data_object.listbox.grid(column=1, row=1, sticky='nsew')
 
-class ComparativeRepresentationAnalysis:
+
+class ComparativeRepresentationAnalysis(ttk.Frame):
     """The representation analysis screen."""
+
+    def __init__(self, parent, controller) -> None:
+        """Create a new comparative representation analysis screen.
+
+        The frame will allow the user to select two files and 
+        create a pie chart of intersectional representation in each,
+        as well as create a bar chart that shows changes in relative
+        representation between the files.
+        """
+        super().__init__(parent)
+        self.controller = controller
+
+        
+

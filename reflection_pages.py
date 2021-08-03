@@ -41,9 +41,8 @@ class ReflectionPage(ttk.Frame):
 
     def save(self):
         """Save the responses in all the text_questions to file in the session folder."""
-        # TODO: Make file names more specific, exception handling
         with open(self.controller.session_dir + "/" + type(self).__name__ +
-                  str(datetime.date.today()) + '.txt', 'w') as save_file:
+                  str(datetime.datetime.today()) + '.txt', 'w') as save_file:
             for question in self.text_questions:
                 save_file.write(
                     '# ' + question + '\n' +
