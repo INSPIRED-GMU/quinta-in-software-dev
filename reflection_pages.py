@@ -100,19 +100,25 @@ class ExploreReflectionPage(ReflectionPage):
         questions = [erq.USING_PROXIES, erq.HARM]
         self.grid_text_questions(questions)
 
+
 class ModelReflectionPage(ReflectionPage):
     """A reflection for the model phase."""
+
     def __init__(self, parent, controller) -> None:
         super().__init__(parent, controller)
-        questions = [ ]
+        questions = [mrq.MOST_FAVORED, mrq.LEAST_FAVORED,
+                     mrq.TREATMENT_SIMILARITIES, mrq.TREATMENT_DIFFERENCES]
         self.grid_text_questions(questions)
+
 
 class InterpretReflectionPage(ReflectionPage):
     """A reflection page for the interpret phase."""
+
     def __init__(self, parent, controller) -> None:
         super().__init__(parent, controller)
         questions = [irq.ENHANCED_STRUCT_INEQ, irq.HOW_INTERPRET]
         self.grid_text_questions(questions)
+
 
 class TextQuestion:
     """A question and a textbox to answer it."""
