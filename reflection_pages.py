@@ -124,7 +124,7 @@ class TextQuestion:
     """A question and a textbox to answer it."""
 
     def __init__(self, parent, question) -> None:
-        self.label = ttk.Label(parent, text=question, wraplength='20cm')
+        self.label = ttk.Label(parent, text=question, wraplength=500)
         self.textbox = tk.Text(parent)
 
     def show(self, column, row):
