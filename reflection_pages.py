@@ -40,9 +40,11 @@ class ReflectionPage(ttk.Frame):
         self.text_questions = {}
 
     def save(self):
-        """Save the responses in all the text_questions to file in the session folder."""
+        today = datetime.datetime.today()
+        timestamp = str(today.year) + '-' + str(today.month) + '-' + str(today.day)
+        """Save the responses in all the text_questions to file labeled with the date in the session folder."""
         with open(self.controller.session_dir + "/" + type(self).__name__ +
-                  str(datetime.datetime.today()) + '.txt', 'w') as save_file:
+                  timestamp + '.txt', 'w') as save_file:
             for question in self.text_questions:
                 save_file.write(
                     '# ' + question + '\n' +
