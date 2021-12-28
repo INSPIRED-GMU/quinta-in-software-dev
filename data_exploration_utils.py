@@ -1,7 +1,7 @@
 """
 Utilities for analyzing the represntation of intersectional identities in data.
 
-Last modified: July 24, 2021
+Last modified: December 27, 2021
 """
 
 from collections import Counter
@@ -13,7 +13,6 @@ import numpy as np
 
 matplotlib.use('TkAgg')
 matplotlib.style.use('fast')
-
 
 
 def non_inter_idents(table, col_nums):
@@ -37,11 +36,6 @@ def non_inter_idents(table, col_nums):
         table[col_name]) for col_name in table.columns[col_nums]}
 
 
-def get_keys(d):
-    """Return the keys of a dict."""
-    return d.keys()
-
-
 def all_possible_intersects(table, col_nums):
     """Find all possible intersections in a dataset.
 
@@ -59,7 +53,7 @@ def all_possible_intersects(table, col_nums):
         e.g. (('Black, Female'), ('White, Male'), ...)
     """
     return itertools.product(
-        *map(get_keys, non_inter_idents(table, col_nums).values()))
+        *map(lambda d: d.keys, non_inter_idents(table, col_nums).values()))
 
 
 def true_intersects_counts(table, col_nums):
@@ -157,7 +151,7 @@ def intersectional_rep_rel_change(counts_before, counts_after):
         change in each after cleaning.
 
     """
-    return {key: ((counts_after[key] - counts_before[key])/counts_before[key]
+    return {key: ((counts_after[key] - counts_before[key]) / counts_before[key]
                   if key in counts_after else -1.0)
             for key in counts_before}
 
@@ -174,9 +168,9 @@ def intersectional_rep_rel_change_bar(before_table, after_table, before_cols,
     after_table : pandas.DataFrame
         The data after cleaning.
     before_cols : list
-        Column numbers to compute interesectional identities before cleaning.
+        Column numbers to compute intersectional identities before cleaning.
     after_cols : list
-        Column numbers to compute interesectional identities after cleaning.
+        Column numbers to compute intersectional identities after cleaning.
 
     Returns
     -------
@@ -185,22 +179,22 @@ def intersectional_rep_rel_change_bar(before_table, after_table, before_cols,
     """
     # Create a figure
     fig, ax = plt.subplots()
-    # The counts of each intersesctional identity before cleaning
+    # The counts of each intersectional identity before cleaning
     before_counts = true_intersects_counts(before_table, before_cols)
-    # The counts of each intersesctional identity after cleaning
+    # The counts of each intersectional identity after cleaning
     after_counts = true_intersects_counts(after_table, after_cols)
     # A dictionary of the relative change in the representation of each
     # intersectional identity
-    changes = intersectional_rep_rel_change(before_counts, after_counts) 
+    changes = intersectional_rep_rel_change(before_counts, after_counts)
     # Use the intersectional identities as plot labels
     labels = changes.keys()
     # Set bar spacing
     positions = np.arange(len(labels))
-    
+
     # Create bar plot
-    ax.barh(positions, changes.values())
-    ax.set_yticks(positions)
-    ax.set_yticklabels(labels)
-    ax.invert_yaxis()
+    ax.bar(positions, changes.values())
+    ax.axhline(0, color='Grey')
+    ax.set_xticks(positions)
+    ax.set_xticklabels(labels)
     ax.set_xlabel('Relative change in representation')
     return FigureCanvasTkAgg(fig, parent)
