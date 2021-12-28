@@ -78,12 +78,24 @@ class RepresentationAnalysis(ttk.Frame):
         for i, file_format in enumerate(self.file_format_radio_buttons):
             self.file_format_radio_buttons[file_format].grid(
                 column=0, row=i, sticky='ns')
+        
+  
 
     def create_listbox(self, column=1, row=1):
         """Create and grid a listbox from self.data_object."""
         self.set_data_object()
         self.data_object.col_listbox(self)
         self.data_object.listbox.grid(column=column, row=row, sticky='nsew')
+        self.data_object.listbox.bind('<<ListboxSelect>>', 
+        lambda e: (self.set_selected_cols()))
+        # if list(self.data_object.listbox.curselection()) != [] else self.data_object.selected_cols))
+
+    def set_selected_cols(self):
+        if list(self.data_object.listbox.curselection()) != []:
+            self.data_object.selected_cols = list(self.data_object.listbox.curselection())
+            
+
+    
 
     def plot_rep_pie(self):
         """Plot intersectional representation."""
@@ -144,8 +156,18 @@ class ComparativeRepresentationAnalysis(RepresentationAnalysis):
 
     def rel_change_bar(self, parent):
         """Draw a barchart representing the relative change in representation."""
+        # For debugging purposes, print data
+        print(self.before_frame.data_object.data)
+        print(self.after_frame.data_object.data)
+        print('Before selection')
+        print(self.before_frame.data_object.selected_cols)
+        print('After selection')
+        print(self.after_frame.data_object.selected_cols)
+        
         deu.intersectional_rep_rel_change_bar(
-            self.before_frame.data_object.data, self.after_frame.data_object.data,
-            list(self.before_frame.data_object.listbox.curselection(
-            )), list(self.after_frame.data_object.listbox.curselection()), parent
+            self.before_frame.data_object.data,
+            self.after_frame.data_object.data,
+            self.before_frame.data_object.selected_cols,
+            self.after_frame.data_object.selected_cols,
+            parent
         ).get_tk_widget().pack()
